@@ -11,11 +11,10 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 export class AutosService {
 
-  /* URL = 'http://34.231.146.47:3000/api/auth/pruebas@terantbwa.com.mx/Vpz6zPv:i!35LDs'; */
+  AUTH: string = 'http://34.231.146.47:3000/api/auth/';
+  API_URL: string = 'http://34.231.146.47:3000/api/vehicles/';
 
-  API_URL = 'http://34.231.146.47:3000/api/vehicles/';
-
-  authsubject = new BehaviorSubject(false);
+  authSubject = new BehaviorSubject(false);
 
   private token: string;
 
@@ -25,25 +24,24 @@ export class AutosService {
     this.getAllAutos();
    }
 
-   register(user: User): Observable<Jwt> {
+/*    register(user: User): Observable<Jwt> {
      return this.http.post<Jwt>(`${this.API_URL}/register`,
      user).pipe(tap(
        (res: Jwt) => {
          if(res) {
-           // guardar token
-           this.saveToken(res.dataUser.token, res.dataUser.expiresIn);
+           this.saveToken(res.dataUser.token);
          }
        }
      ));
-   }
+   } */
 
    login(user: User): Observable<Jwt> {
-     return this.http.post<Jwt>(`${this.API_URL}/auth`,
+     return this.http.post<Jwt>(`${this.AUTH}`,
      user).pipe(tap(
        (res: Jwt) => {
-         if(res) {
+         if (res) {
            // guardar token
-           this.saveToken(res.dataUser.token, res.dataUser.expiresIn);
+           this.saveToken(res.dataUser.token);
          }
        }
      ));
@@ -52,12 +50,12 @@ export class AutosService {
    logout(): void {
      this.token = '';
      localStorage.removeItem("ACCESS_TOKEN");
-     localStorage.removeItem("EXPIRES_IN");
+     //localStorage.removeItem("EXPIRES_IN");
    }
 
-  private saveToken(token: string, expiresIn: string): void {
+  private saveToken(token: string): void {
     localStorage.setItem("ACCESS_TOKEN", token);
-    localStorage.setItem("EXPIRES_IN", expiresIn);
+    //localStorage.setItem("EXPIRES_IN", expiresIn);
     this.token = token;
   }
 
@@ -71,6 +69,7 @@ export class AutosService {
 
   private getAllAutos() {
 
+  if(this.token) {
     return new Promise( ( resolve, reject ) => {
 
       this.http.get(this.API_URL + this.token)
@@ -81,6 +80,9 @@ export class AutosService {
           });
 
     });
+  }else {
+    console.log('No hay token');
+  }
 
   }
 
