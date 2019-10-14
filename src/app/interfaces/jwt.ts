@@ -1,5 +1,3 @@
 export interface Jwt {
-  dataUser: {
-    token: string
-  }
+  token: string
 }

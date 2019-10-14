@@ -36,12 +36,10 @@ export class AutosService {
    } */
 
    login(user: User): Observable<Jwt> {
-     return this.http.post<Jwt>(`${this.AUTH}`,
-     user).pipe(tap(
+     return this.http.get<Jwt>(`${this.AUTH}${user.mail}/${user.pass}`).pipe(tap(
        (res: Jwt) => {
          if (res) {
-           // guardar token
-           this.saveToken(res.dataUser.token);
+          this.saveToken(res.token);
          }
        }
      ));
@@ -71,19 +69,16 @@ export class AutosService {
 
   if(this.token) {
     return new Promise( ( resolve, reject ) => {
-
-      this.http.get(this.API_URL + this.token)
+      this.http.get(this.API_URL + '?token=' + this.token)
           .subscribe( (resp: any[]) => {
             this.autos = resp;
             resolve();
             console.log(resp);
           });
-
-    });
-  }else {
+      });
+    }else {
     console.log('No hay token');
-  }
-
+    }
   }
 
 }
