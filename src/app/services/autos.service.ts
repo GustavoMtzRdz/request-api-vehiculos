@@ -64,9 +64,21 @@ export class AutosService {
     }
     return this.token;
   }
-
-
+  
   private getAllAutos() {
+
+    if(this.token) {
+        this.http.get<VehicleResponse>(this.API_URL + '?token=' + this.token)
+            .subscribe( (resp: VehicleResponse) => {
+              this.autos = resp.vehicles;
+              console.log(this.autos);
+             });
+      } else {
+        console.log('No hay token');
+      }
+    }
+
+/*   private getAllAutos() {
 
   if(this.token) {
       this.http.get(this.API_URL + '?token=' + this.token)
@@ -77,6 +89,6 @@ export class AutosService {
     } else {
       console.log('No hay token');
     }
-  }
+  } */
 
 }

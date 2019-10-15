@@ -1,19 +1,22 @@
 <div class="container">
     <div class="row" *ngIf="isLoggedIn">
+        <div class="col-12">
+            <h1>Modelos disponibles</h1>
+        </div>
         <div class="card-columns">
-            <div class="card" *ngFor="let auto of autosService.autos">
-                <img class="card-img-top" src="{{ auto.thumbnail }}" alt="Card image cap" />
+            <div class="card animated fadeIn" *ngFor="let auto of autosService.autos">
+                <img class="card-img-top" src="{{ auto.thumbnail }}" alt="{{ auto.name }}" />
                 <div class="card-body">
                     <h4 class="card-title">{{ auto.name }}</h4>
-                    <p>Precio ${{ auto.price }}MXN.</p>
                     <p>
-                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#auto" aria-expanded="false" aria-controls="collapseExample">
-                          ver versiones
+                        <button class="btn btn-block btn-primary" type="button" data-toggle="collapse" [attr.data-target]="'#' + auto.name" aria-expanded="false" aria-controls="collapseExample">
+                          ver precio
                         </button>
                     </p>
-                    <div class="collapse" id="auto">
+                    <div class="collapse" id="{{ auto.name }}">
                         <div class="card card-body">
-                            {{ auto.versions }}
+                            <p>Precio {{ auto.price | currency:'MXN':true }}.</p>
+                            <!-- <p>{{ auto.versions[0].characteristics }}</p> -->
                         </div>
                     </div>
                 </div>
