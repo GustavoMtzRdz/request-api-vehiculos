@@ -36,7 +36,7 @@ export class AutosService {
    } */
 
    login(user: User): Observable<Jwt> {
-     return this.http.get<Jwt>(`${this.AUTH}${user.mail}/${user.pass}`).pipe(tap(
+     return this.http.get<Jwt>(`${this.AUTH}${user.email}/${user.password}`).pipe(tap(
        (res: Jwt) => {
          if (res) {
           this.saveToken(res.token);
@@ -48,12 +48,10 @@ export class AutosService {
    logout(): void {
      this.token = '';
      localStorage.removeItem("ACCESS_TOKEN");
-     //localStorage.removeItem("EXPIRES_IN");
    }
 
   private saveToken(token: string): void {
     localStorage.setItem("ACCESS_TOKEN", token);
-    //localStorage.setItem("EXPIRES_IN", expiresIn);
     this.token = token;
   }
 
@@ -68,16 +66,16 @@ export class AutosService {
   private getAllAutos() {
 
   if(this.token) {
-    return new Promise( ( resolve, reject ) => {
+    //return new Promise( ( resolve, reject ) => {
       this.http.get(this.API_URL + '?token=' + this.token)
           .subscribe( (resp: any[]) => {
-            this.autos = resp;
-            resolve();
-            console.log(resp);
-          });
-      });
-    }else {
-    console.log('No hay token');
+            this.autos = resp.vehicles;
+            //resolve();
+            console.log(this.autos);
+           });
+      //});
+    } else {
+      console.log('No hay token');
     }
   }
 

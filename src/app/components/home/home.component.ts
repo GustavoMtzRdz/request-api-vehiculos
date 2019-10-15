@@ -12,15 +12,18 @@ import { User } from '../../interfaces/user';
 
 export class HomeComponent implements OnInit {
 
+  isLoggedIn = false
+
   constructor(public autosService: AutosService, private router: Router) { }
 
   ngOnInit() {
   }
 
   onLogin(form):void {
-    //console.log('Login', form.value);
+    console.log('Login', form.value);
     this.autosService.login(form.value).subscribe(res => {
-      this.router.navigateByUrl('/home');
+      this.isLoggedIn = true
+      //this.router.navigateByUrl('home/autos');
     });
   }
 
