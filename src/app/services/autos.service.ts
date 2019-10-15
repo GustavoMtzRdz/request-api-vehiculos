@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Jwt } from '../interfaces/jwt';
 import { User } from '../interfaces/user';
+import { VehicleResponse } from '../interfaces/VehicleResponse';
 import { tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 
@@ -66,14 +67,11 @@ export class AutosService {
   private getAllAutos() {
 
   if(this.token) {
-    //return new Promise( ( resolve, reject ) => {
       this.http.get(this.API_URL + '?token=' + this.token)
           .subscribe( (resp: any[]) => {
             this.autos = resp.vehicles;
-            //resolve();
             console.log(this.autos);
            });
-      //});
     } else {
       console.log('No hay token');
     }
