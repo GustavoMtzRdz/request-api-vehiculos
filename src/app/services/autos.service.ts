@@ -54,6 +54,8 @@ export class AutosService {
   private saveToken(token: string): void {
     localStorage.setItem("ACCESS_TOKEN", token);
     this.token = token;
+    this.getAllAutos()
+
   }
 
   private getToken(): string {
